@@ -1,0 +1,18 @@
+package BinPack;
+
+public class Objeto {
+	
+	//int valor;
+	double peso;
+	int cantidad; //cambiar
+	public Objeto(double peso, int cantidad) {
+		super();
+		this.peso = peso;
+		this.cantidad = cantidad;
+	}
+	
+	
+	
+	
+
+}
