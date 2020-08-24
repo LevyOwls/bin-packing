@@ -1,0 +1,184 @@
+package BinPack;
+
+import java.util.ArrayList;
+
+
+
+public class state {
+	
+	ArrayList <Objeto> mochila;
+	double pesoMax;
+	double currentP;
+	ArrayList <Objeto> acciones;
+	
+	public state(ArrayList<Objeto> mochila, double pesoMax, double currentP,ArrayList <Objeto> acciones ) {
+		this.mochila = mochila;
+		this.pesoMax = pesoMax;
+		this.currentP= currentP;
+		this.acciones= acciones;
+	}
+	
+	public ArrayList<Objeto>  get_actions (state mochila,ArrayList<Objeto> objetos){ //agrega los objetos mientras no se pase del peso maximo
+		
+		
+		acciones=new ArrayList<Objeto>();
+		int i=0;
+		
+		for (i=0; i<objetos.size();i++) {
+			if (objetos.get(i).peso<=pesoMax-currentP && objetos.get(i).cantidad!=0) {
+				acciones.add(objetos.get(i));
+			}
+			
+			
+		}
+		
+		return acciones;
+	}
+	
+	public state transition(state mochila, Objeto action) {
+		
+		
+		state newMochila;
+		newMochila = new state(mochila.mochila,mochila.pesoMax,0,null);
+		
+		newMochila.mochila.add(action);
+		newMochila.currentP=mochila.currentP+action.peso;
+		
+		
+		return newMochila;
+		
+	}
+	
+	public boolean is_final_state(state mochila) {
+		
+		boolean fin=false;
+		
+		if (mochila.currentP==mochila.pesoMax) {
+			fin=true;
+		}
+		else if (mochila.acciones.size()==0){
+			//no quedan mas objetos validos 
+			fin=true;
+			
+		}
+		
+		
+		return fin;
+	}
+	
+	
+	
+	public  static void main (String []args){  // solo esta para probar, no tiene nada importante aun
+		
+		ArrayList <Objeto> mochila;
+		
+		mochila=new ArrayList <Objeto>();
+		float pesoMax=20;
+		
+		state estadoAct;
+		
+		estadoAct= new state (mochila,pesoMax,0,null);
+		
+		ArrayList <Objeto> Lista;
+		Lista=new ArrayList <Objeto>();
+		
+		Objeto obj;
+		
+		//para probar
+		obj=new Objeto (0.5,17);
+		Lista.add(obj);
+		
+		obj=new Objeto (1,8);
+		Lista.add(obj);
+		
+
+		obj=new Objeto (1.5,10);
+		Lista.add(obj);
+		
+		obj=new Objeto (2,9);
+		Lista.add(obj);
+		
+
+		obj=new Objeto (2.5,7);
+		Lista.add(obj);
+		
+		obj=new Objeto (3,2);
+		Lista.add(obj);
+		
+
+		obj=new Objeto (3.5,3);
+		Lista.add(obj);
+		
+		obj=new Objeto (4,1);
+		Lista.add(obj);
+		
+
+		obj=new Objeto (4.5,4);
+		Lista.add(obj);
+		
+		obj=new Objeto (5,5);
+		Lista.add(obj);
+		
+		//para probar
+		
+		
+		
+		int i=0;
+		for (i=0;i<Lista.size();i++) {
+			System.out.println ("peso objeto "+Lista.get(i).peso+" ");
+		}
+		
+		
+		
+		estadoAct.acciones= estadoAct.get_actions(estadoAct, Lista);
+		
+		System.out.println("accion 1 "+estadoAct.acciones.get(5).peso);
+		
+		
+		
+		estadoAct=estadoAct.transition(estadoAct, estadoAct.acciones.get(5)); //prueba si se guardo algo en acciones
+		
+		
+		System.out.println("mochila 1 "+estadoAct.mochila.get(0).peso+" "+estadoAct.currentP);
+		
+		estadoAct.acciones= estadoAct.get_actions(estadoAct, Lista);
+		estadoAct=estadoAct.transition(estadoAct, estadoAct.acciones.get(4)); prueba si hace la transicion
+		
+		
+		
+		System.out.println("mochila 1 "+estadoAct.mochila.get(1).peso+" "+estadoAct.currentP);
+		
+		estadoAct.acciones= estadoAct.get_actions(estadoAct, Lista);
+		estadoAct=estadoAct.transition(estadoAct, estadoAct.acciones.get(9));
+		
+		
+		
+		System.out.println("mochila 1 "+estadoAct.mochila.get(1).peso+" "+estadoAct.currentP);
+		
+		estadoAct.acciones= estadoAct.get_actions(estadoAct, Lista);
+		estadoAct=estadoAct.transition(estadoAct, estadoAct.acciones.get(9));
+		
+		
+		
+		System.out.println("mochila 1 "+estadoAct.mochila.get(1).peso+" "+estadoAct.currentP);
+		
+		estadoAct.acciones= estadoAct.get_actions(estadoAct, Lista);
+		estadoAct=estadoAct.transition(estadoAct, estadoAct.acciones.get(3));
+		
+		
+		
+		estadoAct.acciones= estadoAct.get_actions(estadoAct, Lista);
+		System.out.println("final? "+estadoAct.is_final_state(estadoAct)); //prueba estado final si no llego al peso max
+		
+		estadoAct=estadoAct.transition(estadoAct, estadoAct.acciones.get(4)); 
+		
+		
+		System.out.println("mochila 1 "+estadoAct.mochila.get(1).peso+" "+estadoAct.currentP);
+		
+		
+		
+		System.out.println("final? "+estadoAct.is_final_state(estadoAct)); //prueba estado final si llego al peso max
+	}
+	
+	
+}
