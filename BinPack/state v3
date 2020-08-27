@@ -18,7 +18,6 @@ public class State {
 	}
 	
 	
-	//falta comprobar que los objetos no sean superior a la mochila
 	public ArrayList<Action>  get_actions (State maletas){ //
 		
 		
@@ -35,28 +34,30 @@ public class State {
 		
 		for (i=0; i<maletas.mochilas.size();i++) {
 			for (j=0; j<maletas.lista.size();j++) {
-				if (maletas.lista.get(j).peso%1!=0) {
-					if ((maletas.mochilas.get(i).pesoMax-maletas.mochilas.get(i).currentP+maletas.lista.get(j).peso)%1==0) {//agrega un objeto no entero si al agregarlo la mochila que queda se vuelve un numero entero
+				if (maletas.lista.get(j).peso<=maletas.mochilas.get(i).pesoMax-maletas.mochilas.get(i).currentP) {
+					if (maletas.lista.get(j).peso%1!=0) {
+						if ((maletas.mochilas.get(i).pesoMax-maletas.mochilas.get(i).currentP+maletas.lista.get(j).peso)%1==0) {//agrega un objeto no entero si al agregarlo la mochila que queda se vuelve un numero entero
+							accion.setObjPos(j);
+							accion.setMochilaPos(i);
+							acciones.add(accion);     
+						}
+						else if ((maletas.mochilas.get(i).pesoMax-maletas.mochilas.get(i).currentP)%1!=0) {
+							accion.setObjPos(j);
+							accion.setMochilaPos(i);
+							acciones.add(accion); //agrega a la mochila el objeto si esta no es entero
+						}
+						else {
+							posNE.add(j);
+						}
+					}
+					if ((maletas.mochilas.get(i).pesoMax-maletas.mochilas.get(i).currentP)%1==0) {
 						accion.setObjPos(j);
 						accion.setMochilaPos(i);
-						acciones.add(accion);     
+						acciones.add(accion); //agrega un objeto a la mochila si este y la mochila son enteros
 					}
-					else if ((maletas.mochilas.get(i).pesoMax-maletas.mochilas.get(i).currentP)%1!=0) {
-						accion.setObjPos(j);
-						accion.setMochilaPos(i);
-						acciones.add(accion); //agrega a la mochila el objeto si esta no es entero
+					if (maletas.lista.get(j).peso>maletas.lista.get(posO).peso) {
+						posO=j;
 					}
-					else {
-						posNE.add(j);
-					}
-				}
-				if ((maletas.mochilas.get(i).pesoMax-maletas.mochilas.get(i).currentP)%1==0) {
-					accion.setObjPos(j);
-					accion.setMochilaPos(i);
-					acciones.add(accion); //agrega un objeto a la mochila si este y la mochila son enteros
-				}
-				if (maletas.lista.get(j).peso>maletas.lista.get(posO).peso) {
-					posO=j;
 				}
 				
 			}
@@ -65,16 +66,36 @@ public class State {
 			}
 			
 		}
-		/*for (i=0; j<posNE.size();i++) {
+		for (i=0; j<posNE.size();i++) {
 			for (j=0; j<posNE.size()-1;j++) {
 				if ((maletas.lista.get(i).peso+maletas.lista.get(j).peso)%1==0) {
-					//hay que agregar un Action que soporte mas de un objeto a la vez, o agregamos ambos objetos como separado como accion
+					if (maletas.lista.get(i).peso+maletas.lista.get(j).peso<=maletas.mochilas.get(posM).pesoMax-maletas.mochilas.get(posM).currentP) {
+						accion.setMochilaPos(posM);
+						accion.setObjPos(i);
+						acciones.add(accion);
+						
+						accion.setMochilaPos(posM);
+						accion.setObjPos(j);
+						acciones.add(accion);
+					}
 				}
 			}
-		}*/
-		accion.setMochilaPos(posM);
-		accion.setObjPos(posO);
-		acciones.add(accion);
+		}
+		if (acciones.size()==0) {
+			if (maletas.lista.get(posO).peso<=maletas.mochilas.get(posM).pesoMax-maletas.mochilas.get(posM).currentP) {
+				accion.setMochilaPos(posM);
+				accion.setObjPos(posO);
+				acciones.add(accion);
+			}
+			else {
+				posM=maletas.mochilas.size();
+				accion.setMochilaPos(posM);
+				accion.setObjPos(posO);
+				acciones.add(accion);
+			}
+			
+		}
+		
 		
 		
 		return acciones;
@@ -87,9 +108,13 @@ public class State {
 		
 		
 		State newMaleta;
+		
 		newMaleta = new State(maleta.lista,maleta.mochilas);
 		if (newMaleta.mochilas.get(accion.mochilaPos)==null) {
-			//newMaleta.mochilas.add(mochila)
+			Mochila mochi;
+			mochi=new Mochila(0,0,null);
+			
+			newMaleta.mochilas.add(mochi);
 		}
 		newMaleta.mochilas.get(accion.mochilaPos).items.add(newMaleta.lista.get(accion.objPos));
 		
