@@ -10,3 +10,7 @@ accion: agregar un objeto, no puede pasar el peso maximo de la mochila.
 
 24-08 coloque un main para probar los metodos, cambie uno de los datos del objeto, sin embargo creo que el que agregue (cantidad) se debe cambiar de todas maneras.
 
+27-08 se cambio los estado y accion y se agrego la clase objeto y mochila (v3)
+estado: una lista de mochilas minimas y la lista de objetos a colocar
+accion: pasar un objeto a una de las mochilas, no puede pasar el limite maximo de la mochila.
+
