@@ -1,0 +1,2 @@
+Version formal del desafio, tiene cosas comentadas y funciones basicas
+pd: falta la heuristica para decidir cual estado es mejor
