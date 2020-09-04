@@ -28,10 +28,49 @@ public class Main
 		{
 			//GENERAR, REVISAR Y SELECCIONAR MEJOR ESTADO PARA SEGUIR
 			ArrayList posibles=inicial.generarEstados(objetos);
-			
-			
+			inicial = evaluarEstado(posibles);
+			borrarObjeto(objetos, inicial);
 		}
 		
+		inicial.showTime();
+	}
+	
+	
+	public static void borrarObjeto(ArrayList objetos, State objeto)
+	{ 
+		Maleta maleta = objeto.getActual();
+		float borrar = maleta.last();
+		for(int i = 0 ; i < objetos.size(); i++)
+		{
+			if((float)objetos.get(i) == borrar)
+			{
+				objetos.remove(i);
+				break;
+			}
+		}
+	}
+	public static State evaluarEstado(ArrayList posibles)
+	{
+		State mejor_estado = (State)posibles.get(0);
+		State aux;
+		Maleta maleta, mejor_maleta=mejor_estado.getActual();
+		//Si la maleta solo contiene un elemento, este debe ser el mas grande
+		//Si el peso de la maleta es decimal, se recomienda tomar uno decimal
+		//(y contiene mas de un estado)
+		//Si al añadir ese objeto la maleta alcanza su capacidad maxima, se elige ese.
+		for ( int i = 1 ; i < posibles.size() ; i++)
+		{
+			aux = (State)posibles.get(i);
+			maleta = aux.getActual();
+			if(maleta.getDisponible() < mejor_maleta.getDisponible())
+			{
+				mejor_estado = aux;
+				mejor_maleta = maleta;
+			}
+		}
+		
+		
+		return mejor_estado;
 	}
 	
 	//*******************************************

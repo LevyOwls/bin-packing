@@ -86,7 +86,16 @@ public class Maleta
 		//SE RETORNA LA COPIA DE LA MALETA
 		return nueva;
 	}
+	
+	public float last()
+	{
+		return (float)objetos.get(objetos.size()-1);
+	}
 
+	public void mostrarContenido()
+	{
+		System.out.println(objetos);
+	}
 }
 
 

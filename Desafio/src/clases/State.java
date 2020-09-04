@@ -3,7 +3,7 @@ package clases;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import jdk.nashorn.internal.ir.SetSplitState;
+//import jdk.nashorn.internal.ir.SetSplitState;
 
 public class State 
 {
@@ -124,7 +124,7 @@ public class State
 			//SE CREA UN ESTADO CLON
 			State estado=clone();
 			//SE INTENTA INGRESAR EL OBJETO A LA MALETA ACTUAL
-			if (actual.add(temp))
+			if (estado.getActual().add(temp))
 			{
 				//EN CASO QUE SE LOGRE AGREGAR SE INGRESA AL ARRAYLIST
 				estados.add(estado);
@@ -166,5 +166,20 @@ public class State
 		nuevo.setEspacioSobrante();
 		nuevo.setActual(getActual());
 		return nuevo;
+	}
+	
+	public void showTime()
+	{
+		int i;
+		Maleta temp;
+		
+		for (i=0;i<maletas.size();i++)
+		{
+			temp=(Maleta)maletas.get(i);
+			
+			System.out.print("maleta "+(i+1)+": ");
+			temp.mostrarContenido();
+			System.out.println();
+		}
 	}
 }
