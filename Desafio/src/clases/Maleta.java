@@ -74,8 +74,7 @@ public class Maleta
 		//SE CREA UNA MALETA IDENTICA A LA ORIGINAL
 		Maleta nueva=new Maleta(this.getTotal());
 		//SE COPIA EL VALOR DE SUS VARIABLES
-		nueva.setActual(getActual());
-		nueva.setDisponible();
+		
 		
 		int i;
 		//SE INGRESA UNA COPIA DE LOS ELEMENTOS A LA NUEVA MALETA
@@ -84,6 +83,8 @@ public class Maleta
 			nueva.add((float)objetos.get(i));
 		}
 		//SE RETORNA LA COPIA DE LA MALETA
+		nueva.setActual(getActual());
+		nueva.setDisponible();
 		return nueva;
 	}
 	

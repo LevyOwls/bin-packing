@@ -164,7 +164,7 @@ public class State
 		//SE ACTUALIZAN LAS VARIABLES
 		nuevo.setCantidad(maletas.size());
 		nuevo.setEspacioSobrante();
-		nuevo.setActual(getActual());
+		nuevo.setActual((Maleta)maletas.get(maletas.size()-1));
 		return nuevo;
 	}
 	
